@@ -43,6 +43,12 @@ func main() {
 			if strings.HasPrefix(fileName, folderName) {
 				srcPath := filepath.Join(contentsDir, fileName)
 				dstPath := filepath.Join(foldersDir, folderName, fileName)
+				highlightsDir := filepath.Join(foldersDir, folderName, "highlights")
+				if err := os.MkdirAll(highlightsDir, 0755); err != nil {
+					fmt.Printf("Failed to create highlights folder: %v\n", err)
+					continue
+				}
+				dstPath = filepath.Join(highlightsDir, fileName)
 				err := os.Rename(srcPath, dstPath)
 				if err != nil {
 					// Try copy and delete for cross-drive moves
